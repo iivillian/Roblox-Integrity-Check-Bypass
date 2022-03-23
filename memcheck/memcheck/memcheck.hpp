@@ -105,11 +105,11 @@ namespace memcheck
 		return 0;
 	}
 
-	enum class operation
+	enum class operation : std::uint8_t
 	{
-		xor_t,
-		add_t,
-		sub_t,
+		xor_t = 0x33,
+		add_t = 0x03,
+		sub_t = 0x2B,
 	};
 
 	operation determine_operation(std::uintptr_t silent_hasher);

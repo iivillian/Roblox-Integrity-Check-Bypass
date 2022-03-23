@@ -1,4 +1,4 @@
-/* Written by Gogo1000, iivillian, and 0x90 */
+/* Written by Gogo1000, iivillian, 0x90 */
 
 #include "memcheck.hpp"
 #include "../utils/utils.hpp"
@@ -16,24 +16,7 @@ memcheck::operation memcheck::determine_operation(std::uintptr_t silent_hasher)
 	/* Check for one of the operations used. The operation between hash and seed is always the last arithmetic instruction in the function */
 	while (*reinterpret_cast<std::uint8_t*>(--silent_hasher) != 0x33 && *reinterpret_cast<std::uint8_t*>(silent_hasher) != 0x03 && *reinterpret_cast<std::uint8_t*>(silent_hasher) != 0x2b) {}
 
-	switch (*reinterpret_cast<std::uint8_t*>(silent_hasher))
-	{
-	case 0x33:
-		if constexpr (debug)
-			std::printf("\nCurrent Hasher Operation: ^\n");
-
-		return memcheck::operation::xor_t;
-	case 0x03:
-		if constexpr (debug)
-			std::printf("\nCurrent Hasher Operation: +\n");
-
-		return memcheck::operation::add_t;
-	case 0x2b:
-		if constexpr (debug)
-			std::printf("\nCurrent Hasher Operation: -\n");
-
-		return memcheck::operation::sub_t;
-	}
+	return (*reinterpret_cast<memcheck::operation*>(silent_hasher));
 }
 
 std::uintptr_t* memcheck::populate_hash_list()
