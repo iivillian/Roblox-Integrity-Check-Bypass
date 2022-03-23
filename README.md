@@ -18,7 +18,7 @@ For this writeup I will call the core hasher 'main' hasher and rest I will just 
 ![](https://cdn.discordapp.com/attachments/782842266456817664/956289832290758656/gkp0qufp.png)
 ![](https://cdn.discordapp.com/attachments/782842266456817664/956290152928526356/jBCw6PAt.png)
 
-The first picture is an example of 1 of the 16 hashers and the second picture is of the main hasher. Every single one of those 16 hashers create unique hash so you can't just patch 1 and redirect rest to it, making bypassing it more difficult.
+The first picture is an example of 1 of the 16 hashers and the second picture is of the main hasher. Every single one of those 16 hashers create a unique hash so you can't just patch one and redirect rest to it, making bypassing it more difficult.
 
 Only one of them will be active per server and it will be same for everyone in it.
 The main hasher is active all the time.
