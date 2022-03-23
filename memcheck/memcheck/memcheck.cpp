@@ -20,17 +20,17 @@ memcheck::operation memcheck::determine_operation(std::uintptr_t silent_hasher)
 	{
 	case 0x33:
 		if constexpr (debug)
-			std::printf("Current hasher operation : ^\n");
+			std::printf("\nCurrent Hasher Operation: ^\n");
 
 		return memcheck::operation::xor_t;
 	case 0x03:
 		if constexpr (debug)
-			std::printf("Current hasher operation : +\n");
+			std::printf("\nCurrent Hasher Operation: +\n");
 
 		return memcheck::operation::add_t;
 	case 0x2b:
 		if constexpr (debug)
-			std::printf("Current hasher operation : -\n");
+			std::printf("\nCurrent Hasher Operation: -\n");
 
 		return memcheck::operation::sub_t;
 	}
@@ -65,6 +65,7 @@ std::uintptr_t memcheck::get_active_silent_hasher()
 {
 	const auto a3 = *reinterpret_cast<std::uint32_t*>(get_client_replicator() + 0x2BC4);
 	const auto v6 = (0x1594FE2C * a3 - 0x32E7FDBF) ^ (0xD2C21B15 - 0x344B5409 * a3);
+
 	return m_base - 0x400000 + v6 + 2;
 }
 
@@ -170,7 +171,7 @@ void memcheck::initiate()
 		/* Cache the silent and core checker unseeded hashes */
 		chunk_data.emplace_back(chunk, size, hash, raw_hash);
 
-		std::printf("Chunk %x: 0x%X | 0x%X | Hash: 0x%X | Core Hash: 0x%X\n", i, chunk_data[i].start, chunk_data[i].size, chunk_data[i].hash, chunk_data[i].core_hash);
+		std::printf("Chunk %x: 0x%X | Size: 0x%X | Hash: 0x%X | Core Hash: 0x%X\n", i, chunk_data[i].start, chunk_data[i].size, chunk_data[i].hash, chunk_data[i].core_hash);
 	}
 
 	/* Determine the operation we need to use in our silent hasher hook */
@@ -178,7 +179,7 @@ void memcheck::initiate()
 
 	utils::hook(reinterpret_cast<std::uintptr_t>(silent_hasher), reinterpret_cast<std::uintptr_t>(silent_hasher_hook));
 
-	std::printf("%X\n", silent_hasher);
+	std::printf("Current Hasher 0x%p\n", silent_hasher);
 
 	seed_end = core_hasher_seed + 0x6;
 	utils::hook(core_hasher_seed, reinterpret_cast<std::uintptr_t>(main_hasher_hook), 0x6);
