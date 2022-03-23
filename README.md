@@ -54,4 +54,4 @@ What we did here is set seed to 0, called the function 30 times ( until it hashe
 
 If seed is 0 the value it xors by is always 0x68178A72. After they do their math so we can simply do the inverse operation to retrieve a fully unseeded hash of the current chunk and then we store the core hashes too.
 
-Then we just hook both hashers and the main hashers.
+Then we just hook the main and active hasher.
