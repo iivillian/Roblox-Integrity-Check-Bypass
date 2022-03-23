@@ -171,7 +171,8 @@ void memcheck::initiate()
 		/* Cache the silent and core checker unseeded hashes */
 		chunk_data.emplace_back(chunk, size, hash, raw_hash);
 
-		std::printf("Chunk %x: 0x%X | Size: 0x%X | Hash: 0x%X | Core Hash: 0x%X\n", i, chunk_data[i].start, chunk_data[i].size, chunk_data[i].hash, chunk_data[i].core_hash);
+		if constexpr (debug)
+			std::printf("Chunk %x: 0x%X | Size: 0x%X | Hash: 0x%X | Core Hash: 0x%X\n", i, chunk_data[i].start, chunk_data[i].size, chunk_data[i].hash, chunk_data[i].core_hash);
 	}
 
 	/* Determine the operation we need to use in our silent hasher hook */
@@ -179,7 +180,8 @@ void memcheck::initiate()
 
 	utils::hook(reinterpret_cast<std::uintptr_t>(silent_hasher), reinterpret_cast<std::uintptr_t>(silent_hasher_hook));
 
-	std::printf("Current Hasher 0x%p\n", silent_hasher);
+	if constexpr (debug)
+		std::printf("Current Hasher: 0x%p\n", silent_hasher);
 
 	seed_end = core_hasher_seed + 0x6;
 	utils::hook(core_hasher_seed, reinterpret_cast<std::uintptr_t>(main_hasher_hook), 0x6);
